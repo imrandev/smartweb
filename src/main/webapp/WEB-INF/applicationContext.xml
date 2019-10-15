@@ -20,45 +20,45 @@
 
     <context:annotation-config/>
 
-    <mongo:mongo-client id="mongoClient" host="localhost" />
-    <mongo:db-factory id="mongoDbFactory" dbname="smartbase" mongo-ref="mongoClient" />
+    <!--<mongo:mongo-client id="mongoClient" host="localhost" />-->
+    <!--<mongo:db-factory id="mongoDbFactory" dbname="smartbase" mongo-ref="mongoClient" />-->
 
-    <mongo:mapping-converter id="mappingConverter" db-factory-ref="mongoDbFactory" />
+    <!--<mongo:mapping-converter id="mappingConverter" db-factory-ref="mongoDbFactory" />-->
 
-    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
-        <constructor-arg name="mongoConverter" ref="mappingConverter"/>
+    <!--<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">-->
+        <!--<constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>-->
+        <!--<constructor-arg name="mongoConverter" ref="mappingConverter"/>-->
+    <!--</bean>-->
+
+    <!--<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>-->
+
+    <!--<mongo:repositories base-package="com.webapp.smartweb.data.repository" mongo-template-ref="mongoTemplate" />-->
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/smartbase"/>
+        <property name="username" value="root"/>
+        <property name="password" value="1234"/>
     </bean>
 
-    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-
-    <mongo:repositories base-package="com.webapp.smartweb.data.repository" mongo-template-ref="mongoTemplate" />
-
-    <!--<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">-->
-        <!--<property name="driverClassName" value="com.mysql.jdbc.Driver"/>-->
-        <!--<property name="url" value="jdbc:mysql://127.0.0.1:3306/smartbase"/>-->
-        <!--<property name="username" value="root"/>-->
-        <!--<property name="password" value="1234"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">-->
-        <!--<property name="dataSource" ref="dataSource"/>-->
-        <!--<property name="packagesToScan" value="com.webapp.smartweb.data.domain"/>-->
-        <!--<property name="annotatedClasses">-->
-            <!--<list>-->
-                <!--<value>com.webapp.smartweb.data.domain.Book</value>-->
-            <!--</list>-->
-        <!--</property>-->
-        <!--<property name="hibernateProperties">-->
-            <!--<props>-->
-                <!--<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>-->
-                <!--<prop key="hibernate.show_sql">true</prop>-->
-                <!--<prop key="hibernate.default_schema">smartbase</prop>-->
-                <!--<prop key="format_sql">true</prop>-->
-                <!--<prop key="use_sql_comments">true</prop>-->
-            <!--</props>-->
-        <!--</property>-->
-    <!--</bean>-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.webapp.smartweb.data.domain"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.webapp.smartweb.data.domain.Book</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.default_schema">smartbase</prop>
+                <prop key="format_sql">true</prop>
+                <prop key="use_sql_comments">true</prop>
+            </props>
+        </property>
+    </bean>
 
     <!-- START:Convert POJO to JSON & vice versa -->
     <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
@@ -71,20 +71,20 @@
     </bean>
     <!-- ENDS:Convert POJO to JSON & vice versa -->
 
-    <!--<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"-->
-          <!--p:sessionFactory-ref="sessionFactory"/>-->
-    <!--<tx:annotation-driven/>-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+          p:sessionFactory-ref="sessionFactory"/>
+    <tx:annotation-driven/>
 
-    <!--<bean id="bookRepository" class="com.webapp.smartweb.data.repository.BookRepositoryImpl">-->
-        <!--<property name="sessionFactory" ref="sessionFactory" />-->
-    <!--</bean>-->
+    <bean id="bookRepository" class="com.webapp.smartweb.data.repository.BookRepositoryImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
 
-    <!--<bean id="bookService" class="com.webapp.smartweb.service.impl.BookServiceImpl"/>-->
-    <!--<bean id="userService" class="com.webapp.smartweb.service.impl.UserServiceImpl"/>-->
+    <bean id="bookService" class="com.webapp.smartweb.service.impl.BookServiceImpl"/>
+    <bean id="userService" class="com.webapp.smartweb.service.impl.UserServiceImpl"/>
 
-    <!--<bean id="userRepository" class="com.webapp.smartweb.data.repository.UserRepositoryImpl">-->
-        <!--<property name="sessionFactory" ref="sessionFactory" />-->
-    <!--</bean>-->
+    <bean id="userRepository" class="com.webapp.smartweb.data.repository.UserRepositoryImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
 
     <context:component-scan base-package="com.webapp" />
     <mvc:annotation-driven />
