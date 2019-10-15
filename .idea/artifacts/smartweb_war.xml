@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="smartweb:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>smartweb</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="SmartWeb.war">
+      <element id="artifact" artifact-name="smartweb:war exploded" />
+    </root>
+  </artifact>
+</component>
